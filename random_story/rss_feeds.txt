@@ -1,0 +1,5 @@
+http://spectrum.ieee.org/static/rss
+http://techcrunch.com/rssfeeds/
+http://www.wired.com/about/rss_feeds/
+https://www.sciencedaily.com/news/
+http://www.theengineer.co.uk/StaticPages/NewsFeeds.htm
