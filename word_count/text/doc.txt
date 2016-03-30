@@ -1,0 +1,19 @@
+Feedparser parses each feed into a meta (emitted on the meta event) portion and
+one or more articles (emited on the data event or readable after the readable
+is emitted).
+
+Regardless of the format of the feed, the meta and each article contain a
+uniform set of generic properties patterned after (although not identical to)
+the RSS 2.0 format, as well as all of the properties originally contained in
+the feed. So, for example, an Atom feed may have a meta.description property,
+but it will also have a meta['atom:subtitle'] property.
+
+The purpose of the generic properties is to provide the user a uniform interface
+for accessing a feed's information without needing to know the feed's format
+(i.e., RSS versus Atom) or having to worry about handling the differences
+between the formats. However, the original information is also there, in case
+you need it. In addition, Feedparser supports some popular namespace extensions
+(or portions of them), such as portions of the itunes, media, feedburner and
+pheedo extensions. So, for example, if a feed article contains either an
+itunes:image or media:thumbnail, the url for that image will be contained in
+the article's image.url property.
