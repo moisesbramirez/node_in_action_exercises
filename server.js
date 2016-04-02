@@ -24,19 +24,42 @@ var server = http.createServer(function(req, res) {
       res.end();
       break;
     case "DELETE":
-      var path = ulr.parse(req.url).pathname;
+      var path = url.parse(req.url).pathname;
       var index = parseInt(path.slice(1), 10);
 
       if( isNaN(index)) {
         res.setStatusCode = 400;
         res.end("Invalid item id");
-      } else if( !item[index]) {
+      } else if( !items[index]) {
         res.setStatusCode = 404;
         res.end("Item not found");
       } else {
         items.splice(index, 1);
         res.end("OK\n");
       }
+      break;
+    case "PUT":
+      var item = "";
+      var path = url.parse(req.url).pathname;
+      var index = parseInt(path.slice(1), 10);
+
+      req.setEncoding("utf8");
+      req.on("data", function(chunk) {
+        item += chunk;
+      });
+      
+      req.on("end", function() {
+        if( isNaN(index) ) {
+          res.end("Invalid item id");
+          res.setStatusCode = 400;
+        } else if ( !items[index] ) {
+          res.setStatusCode =  404;
+          res.end("Item not found");
+        } else {
+          items[index] = item;
+          res.end("OK \n");
+        }
+      });
       break;
     default:
       res.setStatusCode = 500;
