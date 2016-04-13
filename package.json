@@ -4,7 +4,8 @@
   "description": "node server that accepts user information through HTML forms.",
   "main": "server.js",
   "dependencies": {
-    "formidable": "^1.0.17"
+    "formidable": "^1.0.17",
+    "socket.io": "^1.4.5"
   },
   "devDependencies": {},
   "scripts": {

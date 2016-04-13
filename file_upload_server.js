@@ -1,9 +1,15 @@
 "use strict";
-let http = require("http");
+let server = require("http").createServer(handler);
 let formidable = require("formidable");
+let io = require("socket.io")(server);
+let socket;
 const PORT = 9000;
 
-let server = http.createServer((req, res) => {
+server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+
+io.on("connection", (incomingSocket) => socket = incomingSocket);
+
+function handler(req, res) {
   if("/" === req.url){
     switch (req.method) {
       case "GET":
@@ -17,8 +23,7 @@ let server = http.createServer((req, res) => {
   } else {
     notFound(res);
   }
-});
-server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+}
 
 function notFound(res) {
   res.statusCode = 404;
@@ -27,11 +32,37 @@ function notFound(res) {
 }
 
 function show(res) {
-  let html = `<form method='POST' action='/' enctype='multipart/form-data'>
-                <p><input type='text' name='name'/></p>
-                <p><input type='file' name='file'/></p>
-                <p><input type='submit' value='Upload'/></p>
-              </form>`;
+  let html = `
+    <body>
+      <style>
+        .progress-bar {
+          width: 200px;
+          height: 25px;
+          border: 1px solid #BFBFBF;
+          background-color: #EFEFEF;
+        }
+        .progress {
+          width: 0%;
+          height: 100%;
+          display: inline-block;
+          background-color: #53E653;
+        }
+      </style>
+      <form method='POST' action='/' enctype='multipart/form-data'>
+        <p><input type='text' name='name'/></p>
+        <p><input type='file' name='file'/></p>
+        <div class="progress-bar"><span class="progress"></span></div>
+        <p><input type='submit' value='Upload'/></p>
+      </form>
+      <script src="/socket.io/socket.io.js"></script>
+      <script>
+        var socket = io('http://localhost:${PORT}');
+        var progressBar = document.querySelector(".progress");
+        socket.on("uploading", function (data) {
+          progressBar.style.width = data.percentage + '%';
+        });
+      </script>
+    </body>`;
   res.setHeader("Content-Type", "text/html");
   res.setHeader("Content-Length", Buffer.byteLength(html));
   res.end(html);
@@ -48,13 +79,16 @@ function upload(req, res) {
 
   form.on("progress", (bytesReceived, bytesExpected) => {
     let percent = Math.floor(bytesReceived / bytesExpected * 100);
-    // console.log(`${percent}%`);
+    socket.emit("uploading", { percentage: percent });
   });
 
-  form.parse(req, (err, fields, files) => {
-    // console.log(fields);
-    // console.log(files);
-    res.end("upload complete!");
+  form.parse(req, (err) => {
+    if(err) {
+      res.statusCode = 500;
+      res.end("Internal Server Error: problem occured during upload.")
+      return;
+    }
+    res.end();
   });
 }
 
