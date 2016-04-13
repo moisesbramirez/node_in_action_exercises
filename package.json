@@ -1,0 +1,19 @@
+{
+  "name": "node-forms",
+  "version": "0.0.1",
+  "description": "node server that accepts user information through HTML forms.",
+  "main": "server.js",
+  "dependencies": {
+    "formidable": "^1.0.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "d"
+  ],
+  "author": "Moises Ramirez - moises.ramirez90@gmail.com",
+  "license": "ISC"
+}
