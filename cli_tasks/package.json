@@ -1,0 +1,11 @@
+{
+  "name": "cli_tasks",
+  "version": "0.0.0",
+  "description": "A Node cli that stores and retrieves tasked using file-based storage",
+  "main": "cli_tasks.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Moises Ramirez",
+  "license": "ISC"
+}
