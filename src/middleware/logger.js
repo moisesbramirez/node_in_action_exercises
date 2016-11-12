@@ -1,6 +1,11 @@
-module.exports = logger;
+module.exports = setupLogger;
 
-function logger(request, response, next) {
-  console.log("%s %s", request.method, request.url);
-  next();
+function setupLogger(format) {
+  const regexp = /:(\w+)/g;
+
+  return function logger(request, response, next) {
+    const str = format.replace(regexp, (match, property) =>  request[property]);
+    console.log(str);
+    next();
+  };
 }
