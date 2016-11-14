@@ -1,24 +1,19 @@
 {
-  "name": "node_in_action_exercises",
-  "version": "1.0.0",
-  "description": "Express",
-  "main": "index.js",
-  "dependencies": {
-    "connect": "^3.5.0",
-    "express": "^4.14.0"
-  },
-  "devDependencies": {},
+  "name": "node-in-action-exercises",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/moisesbramirez/node_in_action_exercises.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/moisesbramirez/node_in_action_exercises/issues"
-  },
-  "homepage": "https://github.com/moisesbramirez/node_in_action_exercises#readme"
+  "dependencies": {
+    "body-parser": "~1.15.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "ejs": "~2.5.2",
+    "express": "~4.14.0",
+    "mongoose": "^4.6.7",
+    "morgan": "~1.7.0",
+    "multer": "^1.2.0",
+    "serve-favicon": "~2.3.0"
+  }
 }
